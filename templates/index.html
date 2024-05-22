@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>FunPlotter</title>
+</head>
+
+<body>
+  <h1>Function Plotter</h1>
+
+  {% for f in functions %}
+    <form id="funForm{{ loop.index0 }}" action="/update/{{ loop.index0 }}" method="post">
+      <label for="fun{{ loop.index0 }}"> f(x) = </label>
+      <input type="text" id="fun{{ loop.index0 }}" name="fun{{ loop.index0 }}" value="{{ f }}">
+      <button type="submit" formaction="/update/{{ loop.index0 }}">Update</button>
+      <button type="submit" formaction="/delete/{{ loop.index0 }}">Delete</button>
+    </form>
+  {% endfor %}
+
+  <form id="functionForm" action={{ url_for('add_function') }} method="post">
+    <label for="newFunction"> f(x) = </label>
+    <input type="text" id="newFunction" name="newFunction">
+    <button type="submit">Add Function</button>
+  </form>
+
+  <canvas id="funPlots"></canvas>
+
+  <script>
+    const ctx = document.getElementById('funPlots').getContext('2d');
+    const dataSets = {{ datasets | tojson }};
+    const lineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: dataSets,
+      },
+      options: {
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'x'
+            },
+            type: 'linear',
+            position: 'bottom'
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'f(x)'
+            },
+            type: 'linear',
+            position: 'left'
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>

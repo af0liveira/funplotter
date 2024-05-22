@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Function Plotter</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Function Plotter</h1>
+    <form id="functionForm">
+        <label for="function">Enter function:</label>
+        <input type="text" id="function" name="function">
+        <button type="submit">Add Function</button>
+    </form>
+    <div id="functionFormsContainer"></div>
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+        let functions = [];
+        let ctx = document.getElementById('myChart').getContext('2d');
+        let chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 100}, (_, i) => i), // X-axis labels
+                datasets: []
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: 'x' } },
+                    y: { title: { display: true, text: 'y' } }
+                }
+            }
+        });
+
+        function addDataset(func, index) {
+            let dataset = {
+                label: func,
+                data: [],
+                borderColor: getRandomColor(),
+                fill: false
+            };
+
+            for (let x = 0; x < 100; x++) {
+                let y = eval(func.replace(/x/g, x));
+                dataset.data.push({x: x, y: y});
+            }
+
+            chart.data.datasets.push(dataset);
+            chart.update();
+
+            let formHtml = `
+                <form class="functionForm" data-index="${index}">
+                    <label for="function${index}">Function ${index + 1}:</label>
+                    <input type="text" id="function${index}" name="function" value="${func}">
+                    <button type="button" class="updateBtn">Update</button>
+                    <button type="button" class="deleteBtn">Delete</button>
+                </form>
+            `;
+            $('#functionFormsContainer').append(formHtml);
+        }
+
+        function getRandomColor() {
+            let letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function refreshChart() {
+            chart.data.datasets = [];
+            functions.forEach((func, index) => {
+                addDataset(func, index);
+            });
+            chart.update();
+        }
+
+        $('#functionForm').on('submit', function(e) {
+            e.preventDefault();
+            let func = $('#function').val();
+            if (func) {
+                $.post('/add_function', {function: func}, function(data) {
+                    functions = data;
+                    $('#functionFormsContainer').empty();
+                    refreshChart();
+                    $('#function').val(''); // Clear input field
+                });
+            }
+        });
+
+        $(document).on('click', '.updateBtn', function() {
+            let form = $(this).closest('.functionForm');
+            let index = form.data('index');
+            let func = form.find('input[name="function"]').val();
+            $.post(`/update_function/${index}`, {function: func}, function(data) {
+                functions = data;
+                refreshChart();
+            });
+        });
+
+        $(document).on('click', '.deleteBtn', function() {
+            let form = $(this).closest('.functionForm');
+            let index = form.data('index');
+            $.post(`/delete_function/${index}`, {}, function(data) {
+                functions = data;
+                $('#functionFormsContainer').empty();
+                refreshChart();
+            });
+        });
+    </script>
+</body>
+</html>
