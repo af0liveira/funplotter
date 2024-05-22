@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Graph</title>
+</head>
+<body>
+    <canvas id="lineChart" width="400" height="200"></canvas>
+    <script>
+        const ctx = document.getElementById('lineChart').getContext('2d');
+        const dataPoints = {{ data_points | tojson }};
+        console.log(dataPoints);
+        const lineChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                datasets: [{
+                    label: "f(x) = x**2",
+                    data: dataPoints,
+                    fill: true,
+                    borderColor: "rgb(75, 192, 192)",
+                    borderWidth: 1,
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
