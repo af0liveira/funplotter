@@ -23,8 +23,8 @@ class AddFunctionForm(FlaskForm):
                    message="Invalid function format"),
         ],
     )
-    xMin = FloatField(Markup("x<sub>min</sub> ="), validators=[DataRequired()])
-    xMax = FloatField(Markup("x<sub>max</sub> ="), validators=[DataRequired()])
+    xMin = FloatField(Markup("x<sub>min</sub> ="))
+    xMax = FloatField(Markup("x<sub>max</sub> ="))
     submit = SubmitField("Add Function")
 
 
@@ -37,8 +37,8 @@ class EditFunctionForm(FlaskForm):
                    message="Invalid function format"),
         ],
     )
-    xMin = FloatField(Markup("x<sub>min</sub> ="), validators=[DataRequired()])
-    xMax = FloatField(Markup("x<sub>max</sub> ="), validators=[DataRequired()])
+    xMin = FloatField(Markup("x<sub>min</sub> ="))
+    xMax = FloatField(Markup("x<sub>max</sub> ="))
     update = SubmitField('Update')
     delete = SubmitField('Delete')
 
