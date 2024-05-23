@@ -95,7 +95,6 @@ def index():
         except Exception as e:
             flash("Function could not be parsed!")
         else:
-            flash("Funcionou, caboclo!")
             return redirect('/')
     else:
         print("ADD_FORM:")
@@ -114,7 +113,6 @@ def index():
             except Exception as e:
                 flash("Function could not be parsed!")
             else:
-                flash("Funcionou, caboclo!")
                 return redirect('/')
         elif form.delete.data:
             del functions[i]
