@@ -1,4 +1,5 @@
 import numpy as np
+import sympy as sp
 
 from flask import Flask, flash, render_template, redirect, request, url_for
 from flask_wtf import FlaskForm
@@ -44,8 +45,16 @@ class EditFunctionForm(FlaskForm):
 
 
 def parse_function(f_expr: str, x_min: float, x_max: float) -> dict:
+    x = sp.symbols('x')
+    sp_expr = sp.sympify(f_expr)
+    f = sp.lambdify(x, sp_expr, 'numpy')
+
     x_values = np.linspace(x_min, x_max, num=101, endpoint=True)
-    y_values = eval(f_expr.replace('x', 'x_values'))
+
+    if sp_expr.is_constant():
+        y_values = np.full_like(x_values, float(sp_expr), dtype=float)
+    else:
+        y_values = f(x_values)
 
     function = {
         'label': f_expr,
@@ -69,7 +78,6 @@ def index():
         x_max = add_form.xMax.data
         functions.append(parse_function(function, x_min, x_max))
         flash("Funcionou, caboclo!")
-        print("PUTA QUE PARIU, DESGRACA!")
         return redirect('/')
 
     for i, form in enumerate(edit_forms):
