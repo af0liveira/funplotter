@@ -76,18 +76,26 @@ def index():
         function = add_form.function.data
         x_min = add_form.xMin.data
         x_max = add_form.xMax.data
-        functions.append(parse_function(function, x_min, x_max))
-        flash("Funcionou, caboclo!")
-        return redirect('/')
+        try:
+            functions.append(parse_function(function, x_min, x_max))
+        except Exception as e:
+            flash("Function could not be parsed!")
+        else:
+            flash("Funcionou, caboclo!")
+            return redirect('/')
 
     for i, form in enumerate(edit_forms):
         if form.update.data and form.validate_on_submit():
             function = form.function.data
             x_min = form.xMin.data
             x_max = form.xMax.data
-            functions[i] = parse_function(function, x_min, x_max)
-            flash("Funcionou, caboclo!")
-            return redirect('/')
+            try:
+                functions[i] = parse_function(function, x_min, x_max)
+            except Exception as e:
+                flash("Function could not be parsed!")
+            else:
+                flash("Funcionou, caboclo!")
+                return redirect('/')
         elif form.delete.data:
             del functions[i]
             return redirect('/')
