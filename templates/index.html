@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>FunPlotter</title>
+</head>
+
+<body>
+  <h1>FunPlotter</h1>
+  <h2>A web app for plotting univariate functions</h2>
+
+  <!-- Form for appending new functions to the graph -->
+  <form id="addFunctionForm" action="/add_function" method="post">
+    <label for="addFunction"> f(x) = </label>
+    <input type="text" id="addFunction" name="addFunction" placeholder="Function definition">
+    <label for="setXMin"> x<sub>min</sub> = </label>
+    <input type="text" id="setXMin" name="setXMin" placeholder="Lower limit for x">
+    <label for="setXMax"> x<sub>max</sub> = </label>
+    <input type="text" id="setXMax" name="setXMax" placeholder="Upper limit for x">
+    <button type="submit">Add Function</button>
+  </form>
+
+  <canvas id="funPlots"></canvas>
+
+  <script>
+    const ctx = document.getElementById('funPlots').getContext('2d');
+    const dataSets = {{ functions | tojson }};
+    const lineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: dataSets,
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'linear',
+            position: 'bottom',
+            title: {
+              display: true,
+              text: 'x'
+            }
+          },
+          y: {
+            type: 'linear',
+            position: 'left',
+            title: {
+              display: true,
+              text: 'y'
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
