@@ -12,30 +12,29 @@
   <h1>FunPlotter</h1>
   <h2>A web app for plotting univariate functions</h2>
 
-  <!-- Form for updating/removing function plots -->
-  {% for f in functions %}
-    {% set f_id = loop.index0 %}
-    <form id="functionForm{{ f_id }}" method="post">
-      <label for="function{{ f_id }}"> f(x) = </label>
-      <input type="text" id="function{{ f_id }}" name="function{{ f_id }}" value="{{ f['label'] }}">
-      <label for="setXMin{{ f_id }}"> x<sub>min</sub> = </label>
-      <input type="text" id="setXMin{{ f_id }}" name="setXMin{{ f_id }}" value="{{ f['x_min'] }}">
-      <label for="setXMax{{ f_id }}"> x<sub>max</sub> = </label>
-      <input type="text" id="setXMax{{ f_id }}" name="setXMax{{ f_id }}" value="{{ f['x_max'] }}">
-      <button type="submit" formaction="/update_function/{{ f_id }}"> Update </button>
-      <button type="submit" formaction="/delete_function/{{ f_id }}"> Delete </button>
+  {% for function, edit_form in functions | zip(edit_forms) %}
+    <form action="/" method="post">
+      {{ edit_form.hidden_tag() }}
+      {{ edit_form.function.label }}
+      {{ edit_form.function(value=function['label']) }}
+      {{ edit_form.xMin.label }}
+      {{ edit_form.xMin(value=function['x_min']) }}
+      {{ edit_form.xMax.label }}
+      {{ edit_form.xMax(value=function['x_max']) }}
+      {{ edit_form.update }}
+      {{ edit_form.delete }}
     </form>
   {% endfor %}
 
-  <!-- Form for appending new functions to the graph -->
-  <form id="addFunctionForm" action="/add_function" method="post">
-    <label for="addFunction"> f(x) = </label>
-    <input type="text" id="addFunction" name="addFunction" placeholder="Function definition">
-    <label for="setXMin"> x<sub>min</sub> = </label>
-    <input type="text" id="setXMin" name="setXMin" placeholder="Lower limit for x">
-    <label for="setXMax"> x<sub>max</sub> = </label>
-    <input type="text" id="setXMax" name="setXMax" placeholder="Upper limit for x">
-    <button type="submit">Add Function</button>
+  <form id="addFunctionForm" action="/" method="post">
+    {{ add_form.hidden_tag() }}
+    {{ add_form.function.label }}
+    {{ add_form.function() }}
+    {{ add_form.xMin.label }}
+    {{ add_form.xMin() }}
+    {{ add_form.xMax.label }}
+    {{ add_form.xMax() }}
+    {{ add_form.submit }}
   </form>
 
   <canvas id="funPlots"></canvas>
@@ -63,7 +62,7 @@
             position: 'left',
             title: {
               display: true,
-              text: 'y'
+              text: 'f(x)'
             }
           }
         }
