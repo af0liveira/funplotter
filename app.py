@@ -4,7 +4,7 @@ import sympy as sp
 from flask import Flask, flash, render_template, redirect, request, url_for
 from flask_wtf import FlaskForm
 from wtforms import FloatField, SubmitField, StringField 
-from wtforms.validators import DataRequired, Regexp
+from wtforms.validators import DataRequired, Regexp, ValidationError
 from markupsafe import Markup
 
 
@@ -28,6 +28,12 @@ class AddFunctionForm(FlaskForm):
     xMax = FloatField(Markup("x<sub>max</sub> ="))
     submit = SubmitField("Add Function")
 
+    def validate_function(form, field):
+        free_symbols = sp.sympify(field.data).free_symbols
+        print(f"{free_symbols=}")
+        if free_symbols - {sp.symbols('x')}:
+            raise ValidationError("Function is invalid.")
+
 
 class EditFunctionForm(FlaskForm):
     function = StringField(
@@ -42,6 +48,12 @@ class EditFunctionForm(FlaskForm):
     xMax = FloatField(Markup("x<sub>max</sub> ="))
     update = SubmitField('Update')
     delete = SubmitField('Delete')
+
+    def validate_function(form, field):
+        free_symbols = sp.sympify(field.data).free_symbols
+        print(f"{free_symbols=}")
+        if free_symbols - {sp.symbols('x')}:
+            raise ValidationError("Function is invalid.")
 
 
 def parse_function(f_expr: str, x_min: float, x_max: float) -> dict:
@@ -73,6 +85,8 @@ def index():
                   for i, _ in enumerate(functions)]
 
     if add_form.validate_on_submit():
+        print("YES YES YES")
+        print(f"{add_form.errors=}")
         function = add_form.function.data
         x_min = add_form.xMin.data
         x_max = add_form.xMax.data
@@ -83,6 +97,12 @@ def index():
         else:
             flash("Funcionou, caboclo!")
             return redirect('/')
+    else:
+        print("ADD_FORM:")
+        for attr in dir(add_form):
+            print("  ", attr)
+        print(f"{add_form.errors=}")
+        print(f"{add_form.form_errors=}")
 
     for i, form in enumerate(edit_forms):
         if form.update.data and form.validate_on_submit():
