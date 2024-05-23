@@ -23,6 +23,13 @@
       {{ edit_form.xMax(value=function['x_max']) }}
       {{ edit_form.update }}
       {{ edit_form.delete }}
+      {% if edit_form.errors %}
+        <table>
+          <tr>
+            <td>Update is invalid! Keeping original function.</td>
+          </tr>
+        </table>
+      {% endif %}
     </form>
   {% endfor %}
 
@@ -35,6 +42,15 @@
     {{ add_form.xMax.label }}
     {{ add_form.xMax() }}
     {{ add_form.submit }}
+    {% if add_form.errors %}
+      <table>
+        <tr>
+          {% for v in add_form.errors.values() %}
+            <td>{{v | join}}</td>
+          {% endfor %}
+        </tr>
+      </table>
+    {% endif %}
   </form>
 
   <canvas id="funPlots"></canvas>
