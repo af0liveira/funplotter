@@ -32,7 +32,7 @@ class AddFunctionForm(FlaskForm):
         free_symbols = sp.sympify(field.data).free_symbols
         print(f"{free_symbols=}")
         if free_symbols - {sp.symbols('x')}:
-            raise ValidationError("Function is invalid.")
+            raise ValidationError("Not a valid expression.")
 
 
 class EditFunctionForm(FlaskForm):
@@ -53,7 +53,7 @@ class EditFunctionForm(FlaskForm):
         free_symbols = sp.sympify(field.data).free_symbols
         print(f"{free_symbols=}")
         if free_symbols - {sp.symbols('x')}:
-            raise ValidationError("Function is invalid.")
+            raise ValidationError("Not a valid expression.")
 
 
 def parse_function(f_expr: str, x_min: float, x_max: float) -> dict:
