@@ -29,9 +29,10 @@ class AddFunctionForm(FlaskForm):
     submit = SubmitField("Add Function")
 
     def validate_function(form, field):
-        free_symbols = sp.sympify(field.data).free_symbols
-        print(f"{free_symbols=}")
-        if free_symbols - {sp.symbols('x')}:
+        try:
+            free_symbols = sp.sympify(field.data).free_symbols
+            assert free_symbols <= {sp.symbols('x')}
+        except Exception as e:
             raise ValidationError("Not a valid expression.")
 
 
@@ -50,18 +51,23 @@ class EditFunctionForm(FlaskForm):
     delete = SubmitField('Delete')
 
     def validate_function(form, field):
-        free_symbols = sp.sympify(field.data).free_symbols
-        print(f"{free_symbols=}")
-        if free_symbols - {sp.symbols('x')}:
+        try:
+            free_symbols = sp.sympify(field.data).free_symbols
+            assert free_symbols <= {sp.symbols('x')}
+        except Exception as e:
             raise ValidationError("Not a valid expression.")
 
 
 def parse_function(f_expr: str, x_min: float, x_max: float) -> dict:
+    # X_STEP = 1e-2
+    NUM_POINTS = 1000
+
     x = sp.symbols('x')
     sp_expr = sp.sympify(f_expr)
     f = sp.lambdify(x, sp_expr, 'numpy')
 
-    x_values = np.linspace(x_min, x_max, num=101, endpoint=True)
+    x_values = np.linspace(x_min, x_max, num=NUM_POINTS, endpoint=True)
+    # x_values = np.arange(x_min, x_max+X_STEP, step=X_STEP)
 
     if sp_expr.is_constant():
         y_values = np.full_like(x_values, float(sp_expr), dtype=float)
