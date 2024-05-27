@@ -5,11 +5,43 @@ body {
 }
 
 .fn-form {
+    box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
-    flex: 1 1 8ch;
-    gap: 6px;
-    padding: 3px 6px;
+    gap: 3px 6px;
+    /* padding: 3px 6px; */
+    margin: 6px 0;
+    width: 100%;
+}
+
+.fn-form__function,
+.fn-form__xval {
+    box-sizing: border-box;
+    display: flex;
+    flex: 1 1 0;
+    min-width: 12ch;
+}
+
+.fn-form__function-label,
+.fn-form__xval-label {
+    flex: 1 1 auto;
+    min-width: 6ch;
+    max-width: 6ch;
+}
+
+
+.fn-form__function-input,
+.fn-form__xval-input {
+    box-sizing: border-box;
+    flex: 1 1 auto;
+}
+
+.fn-form__function-input {
+    min-width: 0;
+}
+
+.fn-form__xval-input {
+    min-width: 6ch;
 }
 
 .fn-form__buttons {
@@ -18,9 +50,11 @@ body {
     width: 15ch;
 }
 
-.fn-form__btn-update, .fn-form__btn-update {
+.fn-form__btn-delete,
+.fn-form__btn-update {
     width:48%;
 }
+
 .fn-form__btn-add {
     width: 100%;
 }
