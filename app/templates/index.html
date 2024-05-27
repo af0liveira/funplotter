@@ -4,84 +4,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <title>FunPlotter</title>
 </head>
 
 <body>
-  <h1>FunPlotter</h1>
-  <h2>A web app for plotting univariate functions</h2>
+  <header>
+    <h1>FunPlotter</h1>
+    <p>Plot univariate functions.</p>
+  </header>
 
-  {% for function, edit_form in functions | zip(edit_forms) %}
-    <form action="/" method="post" novalidate>
-      <div style="display: flex; gap: 6px; padding: 3px 6px;">
-        {{ edit_form.hidden_tag() }}
-        <div>
-          {{ edit_form.function.label }}
-          {{ edit_form.function(value=function['label']) }}
-        </div>
-        <div>
-          {{ edit_form.xMin.label }}
-          {{ edit_form.xMin(value=function['x_min']) }}
-        </div>
-        <div>
-          {{ edit_form.xMax.label }}
-          {{ edit_form.xMax(value=function['x_max']) }}
-        </div>
-        <div>
-          {{ edit_form.update }}
-          {{ edit_form.delete }}
-        </div>
-        {% if edit_form.errors %}
-          <div>
-            <span>Not a valid update. Keeping original function.</span>
+  <main>
+    <div class="fn-list" id="fn-list">
+      {% for function, edit_form in functions | zip(edit_forms) %}
+        <form class="fn-form" action="{{ url_for('index') }}" method="post" novalidate>
+          {{ edit_form.hidden_tag() }}
+          <div class="fn-form__function">
+            {{ edit_form.function.label(class_="fn-form__function-label") }}
+            {{ edit_form.function(value=function['label'], class_="fn-form__function-input")}}
           </div>
-        {% endif %}
+          <div class="fn-form__xval">
+            {{ edit_form.xMin.label(class_="fn-form__xval-label") }}
+            {{ edit_form.xMin(value=function['x_min'], class_="fn-form__xval-input") }}
+          </div>
+          <div class="fn-form__xval">
+            {{ edit_form.xMax.label(class_="fn-form__xval-label") }}
+            {{ edit_form.xMax(value=function['x_max'], class_="fn-form__xval-input") }}
+          </div>
+          <div class="fn-form__buttons">
+            {{ edit_form.update(class_="fn-form__btn-update") }}
+            {{ edit_form.delete(class_="fn-form__btn-delete") }}
+          </div>
+          {% if edit_form.errors %}
+            <div class="fn-form__errors">
+              <span>Not a valid update. Keeping original function.</span>
+            </div>
+          {% endif %}
+        </form>
+      {% endfor %}
+    </div>
+
+  <div class="fn-add" id="fn-add">
+    <form class="fn-form" id="fn-form" action="{{ url_for('index') }}" method="post" novalidate>
+      {{ add_form.hidden_tag() }}
+      <div class="fn-form__function">
+        {{ add_form.function.label(class_="fn-form__function-label") }}
+        {{ add_form.function(class_="fn-form__function-input") }}
+        {% for error in add_form.function.errors %}
+        <br>
+        <span class="fn-form__errors">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="fn-form__xval">
+        {{ add_form.xMin.label(class_="fn-form__xval-label") }}
+        {{ add_form.xMin(class_="fn-form__xval-input") }}
+        {% for error in add_form.xMin.errors %}
+        <br>
+        <span class="fn-form__errors">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="fn-form__xval">
+        {{ add_form.xMax.label(class_="fn-form__xval-label") }}
+        {{ add_form.xMax(class_="fn-form__xval-input") }}
+        {% for error in add_form.xMax.errors %}
+        <br>
+        <span class="fn-form__errors">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="fn-form__buttons">
+        {{ add_form.submit(class_="fn-form__btn-add") }}
       </div>
     </form>
-  {% endfor %}
-
-  <form id="addFunctionForm" action="/" method="post" novalidate>
-    <div style="display: flex; gap: 6px; padding: 3px 6px;">
-      {{ add_form.hidden_tag() }}
-      <div>
-        {{ add_form.function.label }}
-        {{ add_form.function() }}
-        {% for error in add_form.function.errors %}
-          <br>
-          <span>{{ error }}</span>
-        {% endfor %}
-      </div>
-      <div>
-        {{ add_form.xMin.label }}
-        {{ add_form.xMin() }}
-        {% for error in add_form.xMin.errors %}
-          <br>
-          <span>{{ error }}</span>
-        {% endfor %}
-      </div>
-      <div>
-        {{ add_form.xMax.label }}
-        {{ add_form.xMax() }}
-        {% for error in add_form.xMax.errors %}
-          <br>
-          <span>{{ error }}</span>
-        {% endfor %}
-      </div>
-      <div>
-        {{ add_form.submit }}
-      </div>
-    </div>
-  </form>
+  </div>
 
   {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class=flashes>
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-      </ul>
-    {% endif %}
+  {% if messages %}
+  <ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
   {% endwith %}
 
   <canvas id="funPlots"></canvas>
@@ -121,6 +125,11 @@
       }
     });
   </script>
-</body>
+  </main>
 
+  <footer>
+
+  </footer>
+</body>
+  Made by af0liveira
 </html>

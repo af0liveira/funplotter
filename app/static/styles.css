@@ -1,0 +1,26 @@
+/* styles.css */
+
+body {
+    color: black;
+}
+
+.fn-form {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 1 8ch;
+    gap: 6px;
+    padding: 3px 6px;
+}
+
+.fn-form__buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 15ch;
+}
+
+.fn-form__btn-update, .fn-form__btn-update {
+    width:48%;
+}
+.fn-form__btn-add {
+    width: 100%;
+}
