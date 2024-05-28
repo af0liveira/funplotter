@@ -24,10 +24,10 @@
   </header>
 
   <main>
-    <div class="fn-list" id="fn-list">
+    <div class="fn-list">
 
       {% for function, edit_form in functions | zip(edit_forms) %}
-        <form class="row row-cols-sm-auto g-1 align-items-center" action="{{ url_for('index') }}" method="post" novalidate>
+        <form class="row row-cols-sm-auto g-1 align-items-top" action="{{ url_for('index') }}" method="post" novalidate>
           {{ edit_form.hidden_tag() }}
           <div class="col-12 col-sm-4">
             <div class="input-group input-group-sm">
@@ -90,9 +90,8 @@
     </div>
 
     <div class="fn-add" id="fn-add">
-      <form class="row row-cols-sm-auto g-1 align-items-center" id="fn-form" action="{{ url_for('index') }}" method="post" novalidate>
+      <form class="row row-cols-sm-auto g-1 align-items-top" action="{{ url_for('index') }}" method="post" novalidate>
         {{ add_form.hidden_tag() }}
-
         <div class="col-12 col-sm-4">
           <div class="input-group input-group-sm">
             {{ add_form.function.label(class_="input-group-text") }}
