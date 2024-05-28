@@ -80,9 +80,11 @@
             </div>
           </div>
 
-          <div class="col-12 col-sm-4">
-            {{ edit_form.update(class_="btn btn-outline-primary btn-sm") }}
-            {{ edit_form.delete(class_="btn btn-outline-danger btn-sm") }}
+          <div class="d-grid col-12 col-sm-4">
+            <div class="w-100 d-flex justify-content-between">
+              {{ edit_form.update(class_="btn btn-outline-primary btn-sm flex-grow-1 me-1") }}
+              {{ edit_form.delete(class_="btn btn-outline-danger btn-sm flex-grow-1 me-1") }}
+            </div>
           </div>
         </form>
 
@@ -140,9 +142,9 @@
           </div>
         </div>
 
-        <div class="col-12 col-sm-4">
-          <div class="fn-form__buttons">
-            {{ add_form.submit(class_="btn btn-outline-success btn-sm") }}
+        <div class="d-grid col-12 col-sm-4">
+          <div class="w-100 d-flex justify-content-between">
+            {{ add_form.submit(class_="btn btn-outline-success btn-sm flex-grow-1 me-1") }}
           </div>
         </div>
       </form>
