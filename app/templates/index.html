@@ -93,12 +93,12 @@
       <form class="row row-cols-sm-auto g-1 align-items-center" id="fn-form" action="{{ url_for('index') }}" method="post" novalidate>
         {{ add_form.hidden_tag() }}
 
-        <div class="col-sm-4">
+        <div class="col-12 col-sm-4">
           <div class="input-group input-group-sm">
             {{ add_form.function.label(class_="input-group-text") }}
             {% if add_form.function.errors %}
               {{ add_form.function(class_="form-control form-control-sm is-invalid") }}
-              <div class="invalid-feedback">
+              <div class="invalid-feedback form-check">
                 {% for error in add_form.function.errors %}
                   {{ error }}
                 {% endfor %}
@@ -109,12 +109,12 @@
           </div>
         </div>
 
-        <div class="col-sm-2">
+        <div class="col-6 col-sm-3">
           <div class="input-group input-group-sm">
             {{ add_form.xMin.label(class_="input-group-text") }}
             {% if add_form.xMin.errors %}
               {{ add_form.xMin(class_="form-control form-control-sm is-invalid") }}
-              <div class="invalid-feedback">
+              <div class="invalid-feedback form-check">
                 {% for error in add_form.xMin.errors %}
                   {{ error }}
                 {% endfor %}
@@ -125,12 +125,12 @@
           </div>
         </div>
 
-        <div class="col-sm-2">
+        <div class="col-6 col-sm-3">
           <div class="input-group input-group-sm">
             {{ add_form.xMax.label(class_="input-group-text") }}
             {% if add_form.xMax.errors %}
               {{ add_form.xMax(class_="form-control form-control-sm is-invalid") }}
-              <div class="invalid-feedback">
+              <div class="invalid-feedback form-check">
                 {% for error in add_form.xMax.errors %}
                   {{ error }}
                 {% endfor %}
@@ -141,7 +141,7 @@
           </div>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-12 col-sm-2">
           <div class="fn-form__buttons">
             {{ add_form.submit(class_="btn btn-outline-success btn-sm") }}
           </div>
