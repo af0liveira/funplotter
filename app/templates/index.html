@@ -27,151 +27,154 @@
   </header>
 
   <main>
-
-    <div id="fn-edit-panel" class="offcanvas-md offcanvas-top h-auto" data-bs-scroll="true" data-bs-backdrop="static">
-      <div class="offcanvas-header">
-        <button type="button" class="btn btn-close btn-sm" data-bs-dismiss="offcanvas" data-bs-target="#fn-edit-panel" aria-controls="fn-edit-panel" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <div class="w-100 flex-grow-1">
-          {% for function, edit_form in functions | zip(edit_forms) %}
-            <form class="row row-cols-sm-auto g-1 align-items-top mb-1 mt-1" action="{{ url_for('index') }}" method="post" novalidate>
-              {{ edit_form.hidden_tag() }}
-              <div class="col-6 col-sm-4">
-                <div class="input-group input-group-sm">
-                  {{ edit_form.function.label(class_="input-group-text") }}
-                  {% if edit_form.function.errors %}
-                    {{ edit_form.function(value=function['label'], class_="form-control form-control-sm is-invalid") }}
-                    <div class="invalid-feedback">
-                      {% for error in edit_form.function.errors %}
-                        {{ error }}
-                        Reverted to original.
-                      {% endfor %}
+    <div class="d-flex flex-wrap">
+      <div class="col-12 col-xxl-3 flex-grow-1">
+        <div id="fn-edit-panel" class="offcanvas-md offcanvas-top h-auto" data-bs-scroll="true" data-bs-backdrop="static">
+          <div class="offcanvas-header">
+            <button type="button" class="btn btn-close btn-sm" data-bs-dismiss="offcanvas" data-bs-target="#fn-edit-panel" aria-controls="fn-edit-panel" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="w-100 flex-grow-1">
+              {% for function, edit_form in functions | zip(edit_forms) %}
+                <form class="row row-cols-sm-auto g-1 align-items-top mb-1 mt-1" action="{{ url_for('index') }}" method="post" novalidate>
+                  {{ edit_form.hidden_tag() }}
+                  <div class="col-6 col-sm-4">
+                    <div class="input-group input-group-sm">
+                      {{ edit_form.function.label(class_="input-group-text") }}
+                      {% if edit_form.function.errors %}
+                        {{ edit_form.function(value=function['label'], class_="form-control form-control-sm is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in edit_form.function.errors %}
+                            {{ error }}
+                            Reverted to original.
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ edit_form.function(value=function['label'], class_="form-control form-control-sm") }}
+                      {% endif %}
                     </div>
-                  {% else %}
-                    {{ edit_form.function(value=function['label'], class_="form-control form-control-sm") }}
-                  {% endif %}
-                </div>
-              </div>
+                  </div>
 
-              <div class="col-3 col-sm-2">
-                <div class="input-group input-group-sm col-6">
-                  {{ edit_form.xMin.label(class_="input-group-text") }}
-                  {% if edit_form.xMin.errors %}
-                    {{ edit_form.xMin(value=function['x_min'], class_="form-control form-control-sm is-invalid") }}
-                    <div class="invalid-feedback">
-                      {% for error in edit_form.xMin.errors %}
-                        {{ error }}
-                        Reverted to original.
-                      {% endfor %}
+                  <div class="col-3 col-sm-2">
+                    <div class="input-group input-group-sm col-6">
+                      {{ edit_form.xMin.label(class_="input-group-text") }}
+                      {% if edit_form.xMin.errors %}
+                        {{ edit_form.xMin(value=function['x_min'], class_="form-control form-control-sm is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in edit_form.xMin.errors %}
+                            {{ error }}
+                            Reverted to original.
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ edit_form.xMin(value=function['x_min'], class_="form-control form-control-sm") }}
+                      {% endif %}
                     </div>
-                  {% else %}
-                    {{ edit_form.xMin(value=function['x_min'], class_="form-control form-control-sm") }}
-                  {% endif %}
-                </div>
-              </div>
+                  </div>
 
-              <div class="col-3 col-sm-2">
-                <div class="input-group input-group-sm">
-                  {{ edit_form.xMax.label(class_="input-group-text") }}
-                  {% if edit_form.xMax.errors %}
-                    {{ edit_form.xMax(value=function['x_max'], class_="form-control form-control-sm is-invalid") }}
-                    <div class="invalid-feedback">
-                      {% for error in edit_form.xMax.errors %}
-                        {{ error }}
-                        Reverted to original.
-                      {% endfor %}
+                  <div class="col-3 col-sm-2">
+                    <div class="input-group input-group-sm">
+                      {{ edit_form.xMax.label(class_="input-group-text") }}
+                      {% if edit_form.xMax.errors %}
+                        {{ edit_form.xMax(value=function['x_max'], class_="form-control form-control-sm is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in edit_form.xMax.errors %}
+                            {{ error }}
+                            Reverted to original.
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ edit_form.xMax(value=function['x_max'], class_="form-control form-control-sm") }}
+                      {% endif %}
                     </div>
-                  {% else %}
-                    {{ edit_form.xMax(value=function['x_max'], class_="form-control form-control-sm") }}
-                  {% endif %}
-                </div>
-              </div>
+                  </div>
 
-              <div class="d-flex col-12 col-sm-4">
-                <div class="w-100 d-flex gap-1">
-                  {{ edit_form.update(class_="btn btn-outline-primary btn-sm flex-grow-1") }}
-                  {{ edit_form.delete(class_="btn btn-outline-danger btn-sm flex-grow-1") }}
-                </div>
-              </div>
-            </form>
+                  <div class="d-flex col-12 col-sm-4">
+                    <div class="w-100 d-flex gap-1">
+                      {{ edit_form.update(class_="btn btn-outline-primary btn-sm flex-grow-1") }}
+                      {{ edit_form.delete(class_="btn btn-outline-danger btn-sm flex-grow-1") }}
+                    </div>
+                  </div>
+                </form>
 
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="fn-add-panel">
+          <form class="row row-cols-sm-auto g-1 align-items-top mb-1 mt-1" action="{{ url_for('index') }}" method="post" novalidate>
+            {{ add_form.hidden_tag() }}
+            <div class="col-6 col-sm-4">
+              <div class="input-group input-group-sm">
+                {{ add_form.function.label(class_="input-group-text") }}
+                {% if add_form.function.errors %}
+                  {{ add_form.function(class_="form-control form-control-sm is-invalid") }}
+                  <div class="invalid-feedback form-check">
+                    {% for error in add_form.function.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {{ add_form.function(class_="form-control form-control-sm") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="col-3 col-sm-2">
+              <div class="input-group input-group-sm">
+                {{ add_form.xMin.label(class_="input-group-text") }}
+                {% if add_form.xMin.errors %}
+                  {{ add_form.xMin(class_="form-control form-control-sm is-invalid") }}
+                  <div class="invalid-feedback form-check">
+                    {% for error in add_form.xMin.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {{ add_form.xMin(class_="form-control form-control-sm") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="col-3 col-sm-2">
+              <div class="input-group input-group-sm">
+                {{ add_form.xMax.label(class_="input-group-text") }}
+                {% if add_form.xMax.errors %}
+                  {{ add_form.xMax(class_="form-control form-control-sm is-invalid") }}
+                  <div class="invalid-feedback form-check">
+                    {% for error in add_form.xMax.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {{ add_form.xMax(class_="form-control form-control-sm") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="d-grid col-12 col-sm-4">
+              <div class="w-100 d-flex justify-content-between">
+                {{ add_form.submit(class_="btn btn-outline-success btn-sm flex-grow-1") }}
+              </div>
+            </div>
+          </form>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+          {% for message in messages %}
+          <li>{{ message }}</li>
           {% endfor %}
-        </div>
+        </ul>
+        {% endif %}
+        {% endwith %}
+      </div>
+      <div class="col-12 col-xxl-9 flex-grow-1">
+        <canvas id="funPlots"></canvas>
       </div>
     </div>
-
-    <div class="fn-add-panel">
-      <form class="row row-cols-sm-auto g-1 align-items-top mb-1 mt-1" action="{{ url_for('index') }}" method="post" novalidate>
-        {{ add_form.hidden_tag() }}
-        <div class="col-6 col-sm-4">
-          <div class="input-group input-group-sm">
-            {{ add_form.function.label(class_="input-group-text") }}
-            {% if add_form.function.errors %}
-              {{ add_form.function(class_="form-control form-control-sm is-invalid") }}
-              <div class="invalid-feedback form-check">
-                {% for error in add_form.function.errors %}
-                  {{ error }}
-                {% endfor %}
-              </div>
-            {% else %}
-              {{ add_form.function(class_="form-control form-control-sm") }}
-            {% endif %}
-          </div>
-        </div>
-
-        <div class="col-3 col-sm-2">
-          <div class="input-group input-group-sm">
-            {{ add_form.xMin.label(class_="input-group-text") }}
-            {% if add_form.xMin.errors %}
-              {{ add_form.xMin(class_="form-control form-control-sm is-invalid") }}
-              <div class="invalid-feedback form-check">
-                {% for error in add_form.xMin.errors %}
-                  {{ error }}
-                {% endfor %}
-              </div>
-            {% else %}
-              {{ add_form.xMin(class_="form-control form-control-sm") }}
-            {% endif %}
-          </div>
-        </div>
-
-        <div class="col-3 col-sm-2">
-          <div class="input-group input-group-sm">
-            {{ add_form.xMax.label(class_="input-group-text") }}
-            {% if add_form.xMax.errors %}
-              {{ add_form.xMax(class_="form-control form-control-sm is-invalid") }}
-              <div class="invalid-feedback form-check">
-                {% for error in add_form.xMax.errors %}
-                  {{ error }}
-                {% endfor %}
-              </div>
-            {% else %}
-              {{ add_form.xMax(class_="form-control form-control-sm") }}
-            {% endif %}
-          </div>
-        </div>
-
-        <div class="d-grid col-12 col-sm-4">
-          <div class="w-100 d-flex justify-content-between">
-            {{ add_form.submit(class_="btn btn-outline-success btn-sm flex-grow-1") }}
-          </div>
-        </div>
-      </form>
-    </div>
-
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class=flashes>
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-
-    <canvas id="funPlots"></canvas>
-
     <script>
       const ctx = document.getElementById('funPlots').getContext('2d');
       const dataSets = {{ functions | tojson }};
