@@ -28,17 +28,17 @@
       {% for function, edit_form in functions | zip(edit_forms) %}
         <form class="fn-form" action="{{ url_for('index') }}" method="post" novalidate>
           {{ edit_form.hidden_tag() }}
-          <div class="fn-form__function">
-            {{ edit_form.function.label(class_="fn-form__function-label") }}
-            {{ edit_form.function(value=function['label'], class_="fn-form__function-input")}}
+          <div class="fn-form__function input-group input-group-sm">
+            {{ edit_form.function.label(class_="fn-form__function-label input-group-text") }}
+            {{ edit_form.function(value=function['label'], class_="fn-form__function-input form-control form-control-sm")}}
           </div>
-          <div class="fn-form__xval">
-            {{ edit_form.xMin.label(class_="fn-form__xval-label") }}
-            {{ edit_form.xMin(value=function['x_min'], class_="fn-form__xval-input") }}
+          <div class="fn-form__xval input-group input-group-sm">
+            {{ edit_form.xMin.label(class_="fn-form__xval-label input-group-text") }}
+            {{ edit_form.xMin(value=function['x_min'], class_="fn-form__xval-input form-control form-control-sm") }}
           </div>
-          <div class="fn-form__xval">
-            {{ edit_form.xMax.label(class_="fn-form__xval-label") }}
-            {{ edit_form.xMax(value=function['x_max'], class_="fn-form__xval-input") }}
+          <div class="fn-form__xval input-group input-group-sm">
+            {{ edit_form.xMax.label(class_="fn-form__xval-label input-group-text") }}
+            {{ edit_form.xMax(value=function['x_max'], class_="fn-form__xval-input form-control form-control-sm") }}
           </div>
           <div class="fn-form__buttons">
             {{ edit_form.update(class_="fn-form__btn-update btn btn-outline-primary btn-sm") }}
@@ -56,25 +56,25 @@
     <div class="fn-add" id="fn-add">
       <form class="fn-form" id="fn-form" action="{{ url_for('index') }}" method="post" novalidate>
         {{ add_form.hidden_tag() }}
-        <div class="fn-form__function">
-          {{ add_form.function.label(class_="fn-form__function-label") }}
-          {{ add_form.function(class_="fn-form__function-input") }}
+        <div class="fn-form__function input-group input-group-sm">
+          {{ add_form.function.label(class_="fn-form__function-label input-group-text") }}
+          {{ add_form.function(class_="fn-form__function-input form-control form-control-sm") }}
           {% for error in add_form.function.errors %}
           <br>
           <span class="fn-form__errors">{{ error }}</span>
           {% endfor %}
         </div>
-        <div class="fn-form__xval">
-          {{ add_form.xMin.label(class_="fn-form__xval-label") }}
-          {{ add_form.xMin(class_="fn-form__xval-input") }}
+        <div class="fn-form__xval input-group input-group-sm">
+          {{ add_form.xMin.label(class_="fn-form__xval-label input-group-text") }}
+          {{ add_form.xMin(class_="fn-form__xval-input form-control form-control-sm") }}
           {% for error in add_form.xMin.errors %}
           <br>
           <span class="fn-form__errors">{{ error }}</span>
           {% endfor %}
         </div>
-        <div class="fn-form__xval">
-          {{ add_form.xMax.label(class_="fn-form__xval-label") }}
-          {{ add_form.xMax(class_="fn-form__xval-input") }}
+        <div class="fn-form__xval input-group input-group-sm">
+          {{ add_form.xMax.label(class_="fn-form__xval-label input-group-text") }}
+          {{ add_form.xMax(class_="fn-form__xval-input form-control form-control-sm") }}
           {% for error in add_form.xMax.errors %}
           <br>
           <span class="fn-form__errors">{{ error }}</span>
