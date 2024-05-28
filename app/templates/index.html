@@ -15,13 +15,12 @@
 
 <body>
   <header>
-    <nav id="header__nav" class="navbar">
-      <div class="container-fluid">
-        <h1 class="navbar-brand">FunPlotter</h1>
-          <button class="btn btn-primary btn-sm d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#fn-edit-panel"  aria-controls="fn-edit-panel" {% if not functions %} disabled {% endif %}>
-            Functions
-          </button>
-        <span class="navbar-text">Univariate function plots</span>
+    <nav class="navbar sticky-top bg-body-tertiary">
+      <div class="container-fluid justify-content-start align-items-center">
+        <div class="navbar-brand">
+          <h1>FunPlotter</h1>
+        </div>
+        <button class="btn btn-primary btn-sm d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#fn-edit-panel"  aria-controls="fn-edit-panel" {% if not functions %} disabled {% endif %}> Functions </button>
       </div>
     </nav>
   </header>
