@@ -37,8 +37,8 @@
             {{ edit_form.xMax(value=function['x_max'], class_="fn-form__xval-input") }}
           </div>
           <div class="fn-form__buttons">
-            {{ edit_form.update(class_="fn-form__btn-update") }}
-            {{ edit_form.delete(class_="fn-form__btn-delete") }}
+            {{ edit_form.update(class_="fn-form__btn-update btn btn-outline-primary btn-sm") }}
+            {{ edit_form.delete(class_="fn-form__btn-delete btn btn-outline-danger btn-sm") }}
           </div>
         </form>
         {% if edit_form.errors %}
@@ -77,7 +77,7 @@
           {% endfor %}
         </div>
         <div class="fn-form__buttons">
-          {{ add_form.submit(class_="fn-form__btn-add") }}
+          {{ add_form.submit(class_="fn-form__btn-add btn btn-outline-success btn-sm") }}
         </div>
       </form>
     </div>
