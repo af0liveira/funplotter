@@ -29,7 +29,7 @@
       {% for function, edit_form in functions | zip(edit_forms) %}
         <form class="row row-cols-sm-auto g-1 align-items-center" action="{{ url_for('index') }}" method="post" novalidate>
           {{ edit_form.hidden_tag() }}
-          <div class="col-sm-4">
+          <div class="col-12 col-sm-4">
             <div class="input-group input-group-sm">
               {{ edit_form.function.label(class_="input-group-text") }}
               {% if edit_form.function.errors %}
@@ -46,7 +46,7 @@
             </div>
           </div>
 
-          <div class="col-sm-2">
+          <div class="col-6 col-sm-2">
             <div class="input-group input-group-sm col-6">
               {{ edit_form.xMin.label(class_="input-group-text") }}
               {% if edit_form.xMin.errors %}
@@ -63,7 +63,7 @@
             </div>
           </div>
 
-          <div class="col-sm-2">
+          <div class="col-6 col-sm-2">
             <div class="input-group input-group-sm">
               {{ edit_form.xMax.label(class_="input-group-text") }}
               {% if edit_form.xMax.errors %}
@@ -80,7 +80,7 @@
             </div>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-12 col-sm-4">
             {{ edit_form.update(class_="btn btn-outline-primary btn-sm") }}
             {{ edit_form.delete(class_="btn btn-outline-danger btn-sm") }}
           </div>
@@ -109,7 +109,7 @@
           </div>
         </div>
 
-        <div class="col-6 col-sm-3">
+        <div class="col-6 col-sm-2">
           <div class="input-group input-group-sm">
             {{ add_form.xMin.label(class_="input-group-text") }}
             {% if add_form.xMin.errors %}
@@ -125,7 +125,7 @@
           </div>
         </div>
 
-        <div class="col-6 col-sm-3">
+        <div class="col-6 col-sm-2">
           <div class="input-group input-group-sm">
             {{ add_form.xMax.label(class_="input-group-text") }}
             {% if add_form.xMax.errors %}
@@ -141,7 +141,7 @@
           </div>
         </div>
 
-        <div class="col-12 col-sm-2">
+        <div class="col-12 col-sm-4">
           <div class="fn-form__buttons">
             {{ add_form.submit(class_="btn btn-outline-success btn-sm") }}
           </div>
