@@ -18,6 +18,9 @@
     <nav id="header__nav" class="navbar">
       <div class="container-fluid">
         <h1 class="navbar-brand">FunPlotter</h1>
+          <button class="btn btn-primary btn-sm d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#fn-edit-panel"  aria-controls="fn-edit-panel" {% if not functions %} disabled {% endif %}>
+            Functions
+          </button>
         <span class="navbar-text">Univariate function plots</span>
       </div>
     </nav>
@@ -25,12 +28,9 @@
 
   <main>
 
-    <button class="btn btn-primary btn-sm d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#fn-edit-panel"  aria-controls="offcanvasResponsive">
-      Edit Functions
-    </button>
-    <div id="fn-edit-panel" class="offcanvas-md offcanvas-top">
+    <div id="fn-edit-panel" class="offcanvas-md offcanvas-top h-auto" data-bs-scroll="true" data-bs-backdrop="static">
       <div class="offcanvas-header">
-        <button type="button" class="btn btn-close btn-sm" data-bs-dismiss="offcanvas" data-bs-target="#fn-edit-panel" aria-label="Close"></button>
+        <button type="button" class="btn btn-close btn-sm" data-bs-dismiss="offcanvas" data-bs-target="#fn-edit-panel" aria-controls="fn-edit-panel" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <div class="w-100 flex-grow-1">
