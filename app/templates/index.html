@@ -24,12 +24,12 @@
   </header>
 
   <main>
-    <div class="fn-list">
 
+    <div id="fn-edit-panel">
       {% for function, edit_form in functions | zip(edit_forms) %}
-        <form class="row row-cols-sm-auto g-1 align-items-top" action="{{ url_for('index') }}" method="post" novalidate>
+        <form class="row row-cols-sm-auto g-1 align-items-top mb-1 mt-1" action="{{ url_for('index') }}" method="post" novalidate>
           {{ edit_form.hidden_tag() }}
-          <div class="col-12 col-sm-4">
+          <div class="col-6 col-sm-4">
             <div class="input-group input-group-sm">
               {{ edit_form.function.label(class_="input-group-text") }}
               {% if edit_form.function.errors %}
@@ -46,7 +46,7 @@
             </div>
           </div>
 
-          <div class="col-6 col-sm-2">
+          <div class="col-3 col-sm-2">
             <div class="input-group input-group-sm col-6">
               {{ edit_form.xMin.label(class_="input-group-text") }}
               {% if edit_form.xMin.errors %}
@@ -63,7 +63,7 @@
             </div>
           </div>
 
-          <div class="col-6 col-sm-2">
+          <div class="col-3 col-sm-2">
             <div class="input-group input-group-sm">
               {{ edit_form.xMax.label(class_="input-group-text") }}
               {% if edit_form.xMax.errors %}
@@ -80,10 +80,10 @@
             </div>
           </div>
 
-          <div class="d-grid col-12 col-sm-4">
-            <div class="w-100 d-flex justify-content-between">
-              {{ edit_form.update(class_="btn btn-outline-primary btn-sm flex-grow-1 me-1") }}
-              {{ edit_form.delete(class_="btn btn-outline-danger btn-sm flex-grow-1 me-1") }}
+          <div class="d-flex col-12 col-sm-4">
+            <div class="w-100 d-flex gap-1">
+              {{ edit_form.update(class_="btn btn-outline-primary btn-sm flex-grow-1") }}
+              {{ edit_form.delete(class_="btn btn-outline-danger btn-sm flex-grow-1") }}
             </div>
           </div>
         </form>
@@ -91,10 +91,10 @@
       {% endfor %}
     </div>
 
-    <div class="fn-add" id="fn-add">
-      <form class="row row-cols-sm-auto g-1 align-items-top" action="{{ url_for('index') }}" method="post" novalidate>
+    <div class="fn-add-panel">
+      <form class="row row-cols-sm-auto g-1 align-items-top mb-1 mt-1" action="{{ url_for('index') }}" method="post" novalidate>
         {{ add_form.hidden_tag() }}
-        <div class="col-12 col-sm-4">
+        <div class="col-6 col-sm-4">
           <div class="input-group input-group-sm">
             {{ add_form.function.label(class_="input-group-text") }}
             {% if add_form.function.errors %}
@@ -110,7 +110,7 @@
           </div>
         </div>
 
-        <div class="col-6 col-sm-2">
+        <div class="col-3 col-sm-2">
           <div class="input-group input-group-sm">
             {{ add_form.xMin.label(class_="input-group-text") }}
             {% if add_form.xMin.errors %}
@@ -126,7 +126,7 @@
           </div>
         </div>
 
-        <div class="col-6 col-sm-2">
+        <div class="col-3 col-sm-2">
           <div class="input-group input-group-sm">
             {{ add_form.xMax.label(class_="input-group-text") }}
             {% if add_form.xMax.errors %}
@@ -144,7 +144,7 @@
 
         <div class="d-grid col-12 col-sm-4">
           <div class="w-100 d-flex justify-content-between">
-            {{ add_form.submit(class_="btn btn-outline-success btn-sm flex-grow-1 me-1") }}
+            {{ add_form.submit(class_="btn btn-outline-success btn-sm flex-grow-1") }}
           </div>
         </div>
       </form>
