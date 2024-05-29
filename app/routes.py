@@ -1,4 +1,6 @@
-from flask import flash, render_template, redirect, url_for
+import uuid
+
+from flask import flash, render_template, redirect, session, url_for
 
 from app import app
 from app.parsers import parse_function
@@ -9,6 +11,15 @@ functions: list[dict] = []
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+
+    if 'session_id' not in session or 'functions' not in session:
+        return redirect(url_for('new_session'))
+
+    session_id = session['session_id']
+    functions = session['functions']
+
+    print(f"{session_id=}")
+
     add_form = create_form('new_function')
     edit_forms = [create_form('function_update', prefix=str(i))
                   for i, _ in enumerate(functions)]
@@ -43,3 +54,14 @@ def index():
 
     return render_template('index.html', functions=functions,
                            add_form=add_form, edit_forms=edit_forms)
+
+
+@app.route('/new_session/')
+def new_session():
+    new_session_id = str(uuid.uuid4())
+
+    session.clear()
+    session['session_id'] = new_session_id
+    session['functions']: list[dict] = []
+
+    return redirect(url_for('index'))
