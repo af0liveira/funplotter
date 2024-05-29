@@ -176,42 +176,11 @@
         </div>
       </div>
       <script>
-        const ctx = document.getElementById('funPlots').getContext('2d');
+        // Fetch data points from Flask
         const dataSets = {{ functions | tojson }};
-        const lineChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            datasets: dataSets,
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            elements: {
-              point: {
-                pointStyle: false
-              }
-            },
-            scales: {
-              x: {
-                type: 'linear',
-                position: 'bottom',
-                title: {
-                  display: true,
-                  text: 'x'
-                }
-              },
-              y: {
-                type: 'linear',
-                position: 'left',
-                title: {
-                  display: true,
-                  text: 'f(x)'
-                }
-              }
-            }
-          }
-        });
       </script>
+      <!-- Script to plot `dataSets` -->
+      <script src="static/chart.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous">
