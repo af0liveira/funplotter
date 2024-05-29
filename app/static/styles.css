@@ -1,1 +1,33 @@
 /* styles.css */
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+head {
+    height: 56px;
+}
+
+main {
+    padding: 56px 1vh;
+}
+
+canvas {
+    min-width: 350px;
+    max-width: 1600px;
+    min-height: 350px;
+    max-height: 800px;
+}
+
+footer {
+    max-height: 56px;
+}
+
+.navbar {
+    max-height: 56px;
+}
