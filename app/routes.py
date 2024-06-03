@@ -32,25 +32,35 @@ def index():
                 x_max = add_form.xMax.data
                 functions.append(parse_function(function, x_min, x_max))
             except Exception as e:
-                flash(f"Unexpected error while adding new function: {e}")
+                flash(f"Unexpected error while adding new function: {e}",
+                      category='danger')
             else:
+                flash(f"Function added!", category='success')
                 return redirect(url_for('index'))
-
-    for i, form in enumerate(edit_forms):
-        if form.update.data:
-            if form.validate_on_submit():
-                try:
-                    function = form.function.data
-                    x_min = form.xMin.data
-                    x_max = form.xMax.data
-                    functions[i] = parse_function(function, x_min, x_max)
-                except Exception as e:
-                    flash(f"Unexpected error while updating function: {e}")
+        else:
+            flash(f"Function not added!", category='danger')
+    else:
+        for i, form in enumerate(edit_forms):
+            if form.update.data:
+                if form.validate_on_submit():
+                    try:
+                        function = form.function.data
+                        x_min = form.xMin.data
+                        x_max = form.xMax.data
+                        functions[i] = parse_function(function, x_min, x_max)
+                    except Exception as e:
+                        flash(f"Unexpected error while updating function: {e}",
+                              category='danger')
+                    else:
+                        flash(f"Function updated!", category='success')
+                        return redirect(url_for('index'))
                 else:
-                    return redirect(url_for('index'))
-        elif form.delete.data:
-            del functions[i]
-            return redirect(url_for('index'))
+                    flash(f"Function not updated!", category='danger')
+                    break
+            elif form.delete.data:
+                del functions[i]
+                flash(f"Function successfully deleted!", category='success')
+                return redirect(url_for('index'))
 
     return render_template('index.html', functions=functions,
                            add_form=add_form, edit_forms=edit_forms)

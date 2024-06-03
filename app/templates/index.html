@@ -161,16 +161,19 @@
             </form>
           </div>
 
-          {% with messages = get_flashed_messages() %}
-          {% if messages %}
-          <ul class=flashes>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %}
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for cat, msg in messages %}
+                <div class="alert alert-{{ cat }} alert-dismissible fade show" role="alert">
+                  {{ msg }}
+                  <button type="button" class="btn btn-sm btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
           {% endwith %}
+
         </div>
+
         <div class="col-12 col-xxl-9 flex-grow-1">
           <canvas id="funPlots" class="w-100 vh-80 flex-grow-1"></canvas>
         </div>
