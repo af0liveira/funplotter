@@ -9,6 +9,7 @@ from app.forms import create_form
 
 functions: list[dict] = []
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
