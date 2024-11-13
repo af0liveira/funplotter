@@ -3,7 +3,7 @@ import uuid
 from flask import flash, render_template, redirect, session, url_for
 
 from app import app
-from app.parsers import parse_function
+from app.parsers import parse_function, ParsingError
 from app.forms import create_form
 
 
@@ -32,8 +32,10 @@ def index():
                 x_min = add_form.xMin.data
                 x_max = add_form.xMax.data
                 functions.append(parse_function(function, x_min, x_max))
+            except ParsingError as e:
+                flash(f"{str(e)}", category='danger')
             except Exception as e:
-                flash(f"Unexpected error while adding new function: {e}",
+                flash(f"Unexpected error while adding new function: {e} ({type(e)})",
                       category='danger')
             else:
                 flash(f"Function added!", category='success')
@@ -49,6 +51,9 @@ def index():
                         x_min = form.xMin.data
                         x_max = form.xMax.data
                         functions[i] = parse_function(function, x_min, x_max)
+                    except ParsingError as e:
+                        flash(f"Failed to update! {str(e)}",
+                              category='danger')
                     except Exception as e:
                         flash(f"Unexpected error while updating function: {e}",
                               category='danger')
