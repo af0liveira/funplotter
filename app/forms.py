@@ -1,56 +1,46 @@
-import sympy as sp
-
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, StringField 
+from wtforms import SubmitField, StringField
 from wtforms.validators import DataRequired, ValidationError
 from markupsafe import Markup
 
 
-def validate_function_expression(form, field):
-    """Ensure that the expression represents an explicit function of 'x'."""
-    try:
-        free_symbols = sp.sympify(field.data).free_symbols
-        assert free_symbols <= {sp.symbols('x')}
-    except Exception as e:
-        raise ValidationError("Invalid function expression.")
+def validate_input(form, field):
+    """Restrict input to alphanumeric characters and basic math symbols."""
+    ALLOWED_SYMBOLS = '+-*/^()., '
 
-
-def validate_value(form, field):
-    """Ensure that the input expression represents a real number."""
-    try:
-        value = float(sp.sympify(field.data))
-    except Exception as e:
-        raise ValidationError("Invalid value.")
+    if not all(char.isalnum() or char in ALLOWED_SYMBOLS for char in
+               field.data):
+        raise ValidationError("Invalid characters in expression")
 
 
 class FunctionForm(FlaskForm):
     """Base class for function form classes."""
     function = StringField(
         Markup("f(x) ="),
-        validators = [
+        validators=[
             DataRequired(),
-            validate_function_expression,
+            validate_input,
         ],
     )
     xMin = StringField(
         Markup("x<sub>min</sub> ="),
-        validators = [
+        validators=[
             DataRequired(),
-            validate_value,
+            validate_input,
         ],
     )
     xMax = StringField(
         Markup("x<sub>max</sub> ="),
-        validators = [
+        validators=[
             DataRequired(),
-            validate_value,
+            validate_input,
         ],
     )
 
 
-class AddFunctionForm(FunctionForm):
+class PlotFunctionForm(FunctionForm):
     """Form for adding new function."""
-    submit = SubmitField("Add Function")
+    submit = SubmitField("Plot Function")
 
 
 class EditFunctionForm(FunctionForm):
@@ -63,7 +53,7 @@ def create_form(form_type, **kwargs):
     """Create the requested form type."""
     match form_type.lower():
         case 'new_function':
-            return AddFunctionForm(**kwargs)
+            return PlotFunctionForm(**kwargs)
         case 'function_update':
             return EditFunctionForm(**kwargs)
         case _:
