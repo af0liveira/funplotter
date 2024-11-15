@@ -16,21 +16,21 @@ def validate_input(form, field):
 class FunctionForm(FlaskForm):
     """Base class for function form classes."""
     function = StringField(
-        Markup("f(x) ="),
+        Markup("f(x):"),
         validators=[
             DataRequired(),
             validate_input,
         ],
     )
     xMin = StringField(
-        Markup("x<sub>min</sub> ="),
+        Markup("x<sub>min</sub>:"),
         validators=[
             DataRequired(),
             validate_input,
         ],
     )
     xMax = StringField(
-        Markup("x<sub>max</sub> ="),
+        Markup("x<sub>max</sub>:"),
         validators=[
             DataRequired(),
             validate_input,
