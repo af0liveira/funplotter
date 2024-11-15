@@ -1,4 +1,4 @@
-const ctx = document.getElementById('funPlots').getContext('2d');
+const ctx = document.getElementById('plotCanvas').getContext('2d');
 const lineChart = new Chart(ctx, {
   type: 'line',
   data: {
