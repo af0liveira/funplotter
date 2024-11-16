@@ -29,61 +29,70 @@ class ParsingError(Exception):
 
     def __init__(self, message=None):
         if not message:
-            message = ("Input could not be parsed!"
-                       " Make sure you entered valid expressions.")
+            message = ("Invalid expression!")
         self.message = message
         super().__init__(self.message)
 
 
-def sanitize_numeric_input(raw_input: str) -> float:
-    """Parse string into numerical values."""
-    try:
-        sanitized_value = float(parse_expr(raw_input.lower(),
-                                           local_dict=ALLOWED_FUNCTIONS,
-                                           global_dict=GLOBAL_REFERENCES))
-    except Exception:
+def parse_function_form(form):
+    fx_str, fx = _parse_function_field(form.function)
+    x_min = _parse_numeric_field(form.xMin)
+    x_max = _parse_numeric_field(form.xMax)
+
+    if x_min and x_max and x_max <= x_min:
+        msg = "Upper limit must be greater than lower limit."
+        form.xMax.errors.append(msg)
+
+    if form.function.errors or form.xMin.errors or form.xMax.errors:
         raise ParsingError()
 
-    return sanitized_value
+    return _parse_plot_data(fx_str, fx, x_min, x_max)
 
 
-def sanitize_function_input(raw_input: str) -> float:
-    """Parse string representing the mathematical function."""
+def _parse_function_field(form_field):
+    """Convert string into a simpy FunctionClass instance."""
     local_dict = {'x': x, **ALLOWED_FUNCTIONS}
 
     try:
-        sanitized_value = parse_expr(raw_input.lower(), local_dict=local_dict,
-                                     global_dict=GLOBAL_REFERENCES)
+        sanitized_expr = parse_expr(form_field.data.lower(),
+                                    local_dict=local_dict,
+                                    global_dict=GLOBAL_REFERENCES)
+        fx = sp.lambdify(x, sanitized_expr, 'numpy')
     except Exception:
-        raise ParsingError()
+        msg = "Input is not a valid univariate function of x."
+        form_field.errors.append(msg)
+    else:
+        return sanitized_expr, fx
 
-    return sanitized_value
+    return None, None
 
 
-def parse_function(f_expr: str, x_min: str | float, x_max: str | float) -> dict:
-    NUM_POINTS = 1000
+def _parse_numeric_field(form_field):
+    """Convert string into the corresponding float value."""
+    try:
+        num_value = float(
+            parse_expr(form_field.data.lower(), local_dict=ALLOWED_FUNCTIONS,
+                       global_dict=GLOBAL_REFERENCES)
+        )
+    except Exception:
+        msg = "Input does not corresppond to a unique value."
+        form_field.errors.append(msg)
+    else:
+        return num_value
+
+
+def _parse_plot_data(fx_str, fx, x_min, x_max):
+    """Generate data for plotting function."""
+    NUM_POINTS = 1000   # Grid density
 
     # Define the grid of 'x' values
-    x_start = sanitize_numeric_input(x_min)
-    x_stop = sanitize_numeric_input(x_max)
-    x_values = np.linspace(x_start, x_stop, num=NUM_POINTS, endpoint=True)
+    x_values = np.linspace(x_min, x_max, num=NUM_POINTS, endpoint=True)
 
-    # Create a lambda function from 'f(x)'
-    sp_expr = sanitize_function_input(f_expr)
-    f = sp.lambdify(x, sp_expr, 'numpy')
-
-    # Generate the grid of 'y' values
-    # Note that constant functions return a single value by default!
-    if sp_expr.is_constant():
-        y_values = np.full_like(x_values, f(x_values), dtype=float)
-    else:
-        y_values = f(x_values)
-
-    function = {
-        'label': f"{sp_expr}",
-        'x_min': f"{x_start:.2f}",
-        'x_max': f"{x_stop:.2f}",
-        'data': [{'x': x, 'y': y} for x, y in zip(x_values, y_values)],
+    plot_data = {
+        'label': f"{fx_str}",
+        'x_min': f"{x_min:.2f}",
+        'x_max': f"{x_max:.2f}",
+        'data': [{'x': x, 'y': fx(x)} for x in x_values],
     }
 
-    return function
+    return plot_data

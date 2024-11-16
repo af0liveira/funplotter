@@ -3,8 +3,8 @@ import uuid
 from flask import flash, render_template, redirect, session, url_for
 
 from app import app
-from app.parsers import parse_function, ParsingError
 from app.forms import create_form
+from app.parsers import parse_function_form, ParsingError
 
 
 functions: list[dict] = []
@@ -21,55 +21,40 @@ def index():
 
     print(f"{session_id=}")
 
-    add_form = create_form('new_function')
-    edit_forms = [create_form('function_update', prefix=str(i))
-                  for i, _ in enumerate(functions)]
+    add_fun_form = create_form('new_function')
+    edit_fun_forms = [create_form('function_update', prefix=str(i))
+                      for i, _ in enumerate(functions)]
 
-    if add_form.submit.data:
-        if add_form.validate_on_submit():
+    if add_fun_form.submit.data:
+        if add_fun_form.validate_on_submit():
             try:
-                function = add_form.function.data
-                x_min = add_form.xMin.data
-                x_max = add_form.xMax.data
-                functions.append(parse_function(function, x_min, x_max))
-            except ParsingError as e:
-                flash(f"{str(e)}", category='danger')
+                functions.append(parse_function_form(add_fun_form))
+            except ParsingError:
+                pass
             except Exception as e:
-                flash(f"Unexpected error while adding new function: {e} ({type(e)})",
-                      category='danger')
+                flash(f"Unexpected error: {str(e)}.")
             else:
-                flash(f"Function added!", category='success')
                 return redirect(url_for('index'))
-        else:
-            flash(f"Function not added!", category='danger')
     else:
-        for i, form in enumerate(edit_forms):
+        for i, form in enumerate(edit_fun_forms):
             if form.update.data:
                 if form.validate_on_submit():
                     try:
-                        function = form.function.data
-                        x_min = form.xMin.data
-                        x_max = form.xMax.data
-                        functions[i] = parse_function(function, x_min, x_max)
-                    except ParsingError as e:
-                        flash(f"Failed to update! {str(e)}",
-                              category='danger')
+                        functions[i] = parse_function_form(form)
+                    except ParsingError:
+                        pass
                     except Exception as e:
-                        flash(f"Unexpected error while updating function: {e}",
-                              category='danger')
+                        flash(f"Unexpected error: {str(e)}.")
                     else:
-                        flash(f"Function updated!", category='success')
                         return redirect(url_for('index'))
                 else:
-                    flash(f"Function not updated!", category='danger')
                     break
             elif form.delete.data:
                 del functions[i]
-                flash(f"Function successfully deleted!", category='success')
                 return redirect(url_for('index'))
 
     return render_template('index.html', functions=functions,
-                           add_form=add_form, edit_forms=edit_forms)
+                           add_form=add_fun_form, edit_forms=edit_fun_forms)
 
 
 @app.route('/new_session/')
