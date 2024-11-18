@@ -13,9 +13,18 @@
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <header class="bg-primary text-white p-3 text-center">
-    <h2>FunPlotter</h2>
-  </header>
+  <nav class="navbar sticky-top bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0">
+        <h1>FunPlotter</h1>
+      </span>
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="btn btn-outline-danger btn-sm" href="/new_session/" role="button">Reset Session</a>
+        </li>
+      </ul>
+    </div>
+  </nav >
 
   <main class="container-fluid">
     <div id="settings" class="mb-3">
