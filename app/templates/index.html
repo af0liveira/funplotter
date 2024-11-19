@@ -27,13 +27,13 @@
   </nav >
 
   <main class="container-fluid">
-    <div id="settings" class="mb-3">
+    <div id="settings" class="mb-3 bg-light rounded">
       {% include 'partials/functions.html' %}
       {% include 'partials/new_function.html' %}
       {% include 'partials/flash_msgs.html' %}
     </div>
 
-    <div id="plot" class="bg-light">
+    <div id="plot" class="bg-light rounded">
       <!-- Area for displaying the graph -->
       <canvas id="plotCanvas"></canvas>
     </div>
@@ -47,10 +47,6 @@
       crossorigin="anonymous">
     </script>
   </main>
-
-  <footer class="bg-dark text-white p-3 text-center">
-    <p>Footer Content Here</p>
-  </footer>
 </body>
 </html>
 
