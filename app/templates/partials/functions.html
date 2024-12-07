@@ -1,69 +1,84 @@
-{% for function, edit_form in functions | zip(edit_forms) %}
-  {{ edit_form.hidden_tag() }}
+{% if functions %}
+<div class="accordion p-0 m-0" id="accordionFunctions">
+  <div class="accordion-item rounded">
+    <h6 class="accordion-header">
+      <button class="accordion-button text-bg-secondary rounded-top p-1 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFunctions"
+        aria-expanded="true" aria-controls="collapseFunctions">
+          Plotted Functions <span class="badge rounded-pill text-bg-info">{{ functions | length }}</span>
+      </button>
+    </h6>
+    <div id="collapseFunctions" class="accordion-collapse collapse show" data-bs-parent="#accordionFunctions">
+      <div class="accordion-body">
+        {% for function, edit_form in functions | zip(edit_forms) %}
+        {{ edit_form.hidden_tag() }}
 
-  <!-- Form for function input and limits -->
-  <form class="row" action="{{ url_for('index') }}" method="post" novalidate>
-    {{ edit_form.hidden_tag() }}
-    <div class="row g-1">
+        <!-- Form for function input and limits -->
+        <form class="row" action="{{ url_for('index') }}" method="post" novalidate>
+          {{ edit_form.hidden_tag() }}
+          <div class="row g-1">
 
-      <!-- Function input -->
-      <div class="col-4 col-sm-3">
-        <div class="input-group input-group-sm">
-          {{ edit_form.function.label(class_="input-group-text") }}
-          {% if edit_form.function.errors %}
-            {{ edit_form.function(class_="is-invalid form-control form-control-sm", value=function['label']) }}
-            <div class="invalid-feedback form-check">
-              {% for err in edit_form.function.errors %}
-                {{ err }}
-              {% endfor %}
+            <!-- Function input -->
+            <div class="col-4 col-sm-3">
+              <div class="input-group input-group-sm">
+                {{ edit_form.function.label(class_="input-group-text") }}
+                {% if edit_form.function.errors %}
+                {{ edit_form.function(class_="is-invalid form-control form-control-sm", value=function['label']) }}
+                <div class="invalid-feedback form-check">
+                  {% for err in edit_form.function.errors %}
+                  {{ err }}
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ edit_form.function(class_="form-control form-control-sm", value=function['label']) }}
+                {% endif %}
+              </div>
             </div>
-          {% else %}
-            {{ edit_form.function(class_="form-control form-control-sm", value=function['label']) }}
-          {% endif %}
-        </div>
-      </div>
 
-      <!-- Min. x input -->
-      <div class="col-4 col-sm-3">
-        <div class="input-group input-group-sm">
-          {{ edit_form.xMin.label(class_="input-group-text") }}
-          {% if edit_form.xMin.errors %}
-            {{ edit_form.xMin(class_="is-invalid form-control form-control-sm", value=function['x_min']) }}
-            <div class="invalid-feedback form-check">
-              {% for err in edit_form.xMin.errors %}
-                {{ err }}
-              {% endfor %}
+            <!-- Min. x input -->
+            <div class="col-4 col-sm-3">
+              <div class="input-group input-group-sm">
+                {{ edit_form.xMin.label(class_="input-group-text") }}
+                {% if edit_form.xMin.errors %}
+                {{ edit_form.xMin(class_="is-invalid form-control form-control-sm", value=function['x_min']) }}
+                <div class="invalid-feedback form-check">
+                  {% for err in edit_form.xMin.errors %}
+                  {{ err }}
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ edit_form.xMin(class_="form-control form-control-sm", value=function['x_min']) }}
+                {% endif %}
+              </div>
             </div>
-          {% else %}
-            {{ edit_form.xMin(class_="form-control form-control-sm", value=function['x_min']) }}
-          {% endif %}
-        </div>
-      </div>
 
-      <!-- Max. x input -->
-      <div class="col-4 col-sm-3">
-        <div class="input-group input-group-sm">
-          {{ edit_form.xMax.label(class_="input-group-text") }}
-          {% if edit_form.xMax.errors %}
-            {{ edit_form.xMax(class_="is-invalid form-control form-control-sm", value=function['x_max']) }}
-            <div class="invalid-feedback form-check">
-              {% for err in edit_form.xMax.errors %}
-                {{ err }}
-              {% endfor %}
+            <!-- Max. x input -->
+            <div class="col-4 col-sm-3">
+              <div class="input-group input-group-sm">
+                {{ edit_form.xMax.label(class_="input-group-text") }}
+                {% if edit_form.xMax.errors %}
+                {{ edit_form.xMax(class_="is-invalid form-control form-control-sm", value=function['x_max']) }}
+                <div class="invalid-feedback form-check">
+                  {% for err in edit_form.xMax.errors %}
+                  {{ err }}
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ edit_form.xMax(class_="form-control form-control-sm", value=function['x_max']) }}
+                {% endif %}
+              </div>
             </div>
-          {% else %}
-            {{ edit_form.xMax(class_="form-control form-control-sm", value=function['x_max']) }}
-          {% endif %}
-        </div>
-      </div>
 
-      <!-- Update and delete buttons -->
-      <div class="d-flex col-12 col-sm-3 gap-2 align-items-start">
-        {{ edit_form.update(class_="btn btn-outline-primary btn-sm flex-grow-1") }}
-        {{ edit_form.delete(class_="btn btn-outline-danger btn-sm flex-grow-1") }}
-      </div>
+            <!-- Update and delete buttons -->
+            <div class="d-flex col-12 col-sm-3 gap-2 align-items-start">
+              {{ edit_form.update(class_="btn btn-outline-primary btn-sm flex-grow-1") }}
+              {{ edit_form.delete(class_="btn btn-outline-danger btn-sm flex-grow-1") }}
+            </div>
 
+          </div>
+        </form>
+        {% endfor %}
+      </div>
     </div>
-  </form>
-
-{% endfor %}
+  </div>
+</div>
+{% endif %}
