@@ -54,7 +54,7 @@ def _parse_function_field(form_field):
     local_dict = {'x': x, **ALLOWED_FUNCTIONS}
 
     try:
-        sanitized_expr = parse_expr(form_field.data.lower(),
+        sanitized_expr = parse_expr(form_field.data.lower().replace('^', '**'),
                                     local_dict=local_dict,
                                     global_dict=GLOBAL_REFERENCES)
         fx = sp.lambdify(x, sanitized_expr, 'numpy')
@@ -71,7 +71,8 @@ def _parse_numeric_field(form_field):
     """Convert string into the corresponding float value."""
     try:
         num_value = float(
-            parse_expr(form_field.data.lower(), local_dict=ALLOWED_FUNCTIONS,
+            parse_expr(form_field.data.lower().replace('^', '**'),
+                       local_dict=ALLOWED_FUNCTIONS,
                        global_dict=GLOBAL_REFERENCES)
         )
     except Exception:
