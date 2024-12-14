@@ -8,14 +8,14 @@
       <div class="input-group input-group-sm">
         {{ add_form.function.label(class_="input-group-text") }}
         {% if add_form.function.errors %}
-          {{ add_form.function(class_="is-invalid form-control form-control-sm", placeholder_="Enter function (e.g.: sin(2*x))") }}
+          {{ add_form.function(class_="is-invalid form-control form-control-sm", placeholder_="e.g., sin(2*x)") }}
           <div class="invalid-feedback form-check">
             {% for err in add_form.function.errors %}
               {{ err }}
             {% endfor %}
           </div>
         {% else %}
-          {{ add_form.function(class_="form-control form-control-sm", placeholder_="Enter function (e.g.: sin(2*x))") }}
+          {{ add_form.function(class_="form-control form-control-sm", placeholder_="e.g., sin(2*x)") }}
         {% endif %}
       </div>
     </div>
@@ -25,14 +25,14 @@
       <div class="input-group input-group-sm">
         {{ add_form.xMin.label(class_="input-group-text") }}
         {% if add_form.xMin.errors %}
-          {{ add_form.xMin(class_="is-invalid form-control form-control-sm", placeholder_="Enter x lower limit") }}
+          {{ add_form.xMin(class_="is-invalid form-control form-control-sm", placeholder_="lower limit") }}
           <div class="invalid-feedback form-check">
             {% for err in add_form.xMin.errors %}
               {{ err }}
             {% endfor %}
           </div>
         {% else %}
-          {{ add_form.xMin(class_="form-control form-control-sm", placeholder_="Enter x lower limit") }}
+          {{ add_form.xMin(class_="form-control form-control-sm", placeholder_="lower limit") }}
         {% endif %}
       </div>
     </div>
@@ -42,14 +42,14 @@
       <div class="input-group input-group-sm">
         {{ add_form.xMax.label(class_="input-group-text") }}
         {% if add_form.xMax.errors %}
-          {{ add_form.xMax(class_="is-invalid form-control form-control-sm", placeholder_="Enter x upper limit") }}
+          {{ add_form.xMax(class_="is-invalid form-control form-control-sm", placeholder_="upper limit") }}
           <div class="invalid-feedback form-check">
             {% for err in add_form.xMax.errors %}
               {{ err }}
             {% endfor %}
           </div>
         {% else %}
-          {{ add_form.xMax(class_="form-control form-control-sm", placeholder_="Enter x upper limit") }}
+          {{ add_form.xMax(class_="form-control form-control-sm", placeholder_="upper limit") }}
         {% endif %}
       </div>
     </div>
