@@ -87,6 +87,7 @@ directory):
 ```console
 $ python3.12 -m venv .venv      # create the virtual environment
 $ source .venv/bin/activate     # activate the virtual environment 
+```
 
 2. Install the dependencies listed in `requirements.txt`
 
